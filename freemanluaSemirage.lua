@@ -40,8 +40,7 @@ local run_command = function(cmd)
     ui.set(references.automatic_penetration, ui.get(menu.automatic_penetration))
 end
 
-local automatic_fire = function(self) cache[self] = ui.get(self) end
-local automatic_penetration = function(self) cache[self] = ui.get(self) end
+local wrapper = function(self) cache[self] = ui.get(self) end
 
 local ui_callback = function(self)
     local enabled = ui.get(self)
@@ -54,11 +53,11 @@ local ui_callback = function(self)
 end
 
 ui.set_callback(master_switch, ui_callback)
-ui.set_callback(references.automatic_fire, automatic_fire)
-ui.set_callback(references.automatic_penetration, automatic_penetration)
+ui.set_callback(references.automatic_fire, wrapper)
+ui.set_callback(references.automatic_penetration, wrapper)
 
 ui_callback(master_switch)
-automatic_fire(references.automatic_fire)
-automatic_penetration(references.automatic_penetration)
+wrapper(references.automatic_fire)
+wrapper(references.automatic_penetration)
 
 print(string.format("Welcome back %s, freeman-semirage is now loaded. you're currently on the %s build", name, "XAXA"))
